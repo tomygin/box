@@ -1,11 +1,11 @@
 package session
 
 import (
-	"box/clause"
-	"box/dialect"
-	"box/log"
-	"box/schema"
 	"database/sql"
+	"github.com/tomygin/box/clause"
+	"github.com/tomygin/box/dialect"
+	"github.com/tomygin/box/log"
+	"github.com/tomygin/box/schema"
 	"strings"
 )
 

@@ -1,7 +1,7 @@
 package session
 
 import (
-	"box/log"
+	"github.com/tomygin/box/log"
 	"reflect"
 )
 

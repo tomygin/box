@@ -1,10 +1,11 @@
 package box
 
 import (
-	"box/dialect"
-	"box/log"
-	"box/session"
 	"database/sql"
+
+	"github.com/tomygin/box/dialect"
+	"github.com/tomygin/box/log"
+	"github.com/tomygin/box/session"
 )
 
 type Engine struct {

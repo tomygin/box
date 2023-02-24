@@ -1,9 +1,9 @@
 package session
 
 import (
-	"box/log"
-	"box/schema"
 	"fmt"
+	"github.com/tomygin/box/log"
+	"github.com/tomygin/box/schema"
 	"reflect"
 	"strings"
 )

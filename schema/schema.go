@@ -1,9 +1,10 @@
 package schema
 
 import (
-	"box/dialect"
 	"go/ast"
 	"reflect"
+
+	"github.com/tomygin/box/dialect"
 )
 
 // 数据库里面的字段

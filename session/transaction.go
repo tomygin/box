@@ -1,6 +1,6 @@
 package session
 
-import "box/log"
+import "github.com/tomygin/box/log"
 
 func (s *Session) Begin() (err error) {
 	log.Info("transaction begin")

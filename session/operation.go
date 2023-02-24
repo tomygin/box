@@ -1,8 +1,8 @@
 package session
 
 import (
-	"box/clause"
 	"errors"
+	"github.com/tomygin/box/clause"
 	"reflect"
 )
 

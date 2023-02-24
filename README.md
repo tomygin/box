@@ -6,15 +6,23 @@
 
 目前实现了简单的增删查改，大部分代码学习至geektutu的系列教程
 
+### 更新下载
+
+```go
+//在当前工作区下输入
+go get -u github.com/tomygin/box@latest
+```
+
 ### 快速上手
 
 ```go
 package main
 
 import (
-	"box"
-	"box/log"
-	"fmt"
+    "fmt"
+    
+	"github.com/tomygin/box"
+	"github.com/tomygin/box/log"
 )
 
 type User struct {
@@ -77,4 +85,6 @@ func main() {
 - [ ] 支持钩子函数
 - [ ] 事务提交
 - [ ] 选项初始化
+- [ ] 分页
 - [ ] 异步插入
+

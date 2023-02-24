@@ -1,4 +1,4 @@
-module box
+module github.com/tomygin/box
 
 go 1.20
 
