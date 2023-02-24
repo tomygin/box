@@ -2,13 +2,12 @@ package session
 
 import (
 	"errors"
-	"github.com/tomygin/box/clause"
 	"reflect"
+
+	"github.com/tomygin/box/clause"
 )
 
 func (s *Session) Insert(values ...any) (int64, error) {
-	s.CallMethod(BeforeInsert, nil)
-	defer s.CallMethod(AfterInsert, nil)
 
 	recordValues := make([]any, 0)
 	for _, value := range values {
