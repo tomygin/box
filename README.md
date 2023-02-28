@@ -1,4 +1,4 @@
-<img src="logo.png" style="zoom:25%;" />
+<img src="logo.png" style="zoom:15%;" />
 
 ### box介绍
 
