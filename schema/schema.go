@@ -15,7 +15,7 @@ type Field struct {
 }
 
 type Schema struct {
-	Model      any
+	Model      interface{}
 	Name       string
 	Fields     []*Field
 	FieldNames []string //为了加快查找Field
@@ -27,7 +27,7 @@ func (s *Schema) GetField(name string) *Field {
 }
 
 // 将任意对象转化为 Schema
-func Parse(dest any, d dialect.Dialect) *Schema {
+func Parse(dest interface{}, d dialect.Dialect) *Schema {
 	modelType := reflect.Indirect(reflect.ValueOf(dest)).Type()
 	schema := &Schema{
 		Model:    dest,
@@ -56,9 +56,9 @@ func Parse(dest any, d dialect.Dialect) *Schema {
 }
 
 // 按顺序获取结构体的每一个变量
-func (s *Schema) RecordValues(dest any) any {
+func (s *Schema) RecordValues(dest interface{}) interface{} {
 	destValue := reflect.Indirect(reflect.ValueOf(dest))
-	var fieldValues []any
+	var fieldValues []interface{}
 	for _, field := range s.Fields {
 		fieldValues = append(fieldValues, destValue.FieldByName(field.Name).Interface())
 	}

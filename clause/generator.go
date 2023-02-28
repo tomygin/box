@@ -5,7 +5,7 @@ import (
 	"strings"
 )
 
-type generator func(values ...any) (string, []any)
+type generator func(values ...interface{}) (string, []interface{})
 
 var generators map[Type]generator
 
@@ -18,21 +18,21 @@ func genBuildVars(num int) string {
 	return strings.Join(vars, ", ")
 }
 
-func _insert(values ...any) (string, []any) {
+func _insert(values ...interface{}) (string, []interface{}) {
 	tableName := values[0]
 	fields := strings.Join(values[1].([]string), ",")
-	return fmt.Sprintf("INSERT INTO %s (%v) ", tableName, fields), []any{}
+	return fmt.Sprintf("INSERT INTO %s (%v) ", tableName, fields), []interface{}{}
 }
 
-func _values(values ...any) (string, []any) {
+func _values(values ...interface{}) (string, []interface{}) {
 	var BuildStr string
 	var sql strings.Builder
-	var vars []any
+	var vars []interface{}
 
 	sql.WriteString("VALUES ")
 
 	for i, value := range values {
-		v := value.([]any)
+		v := value.([]interface{})
 		if len(BuildStr) == 0 {
 			BuildStr = genBuildVars(len(v))
 		}
@@ -45,23 +45,23 @@ func _values(values ...any) (string, []any) {
 	return sql.String(), vars
 }
 
-func _select(values ...any) (string, []any) {
+func _select(values ...interface{}) (string, []interface{}) {
 	tableName := values[0]
 	fields := strings.Join(values[1].([]string), ",")
-	return fmt.Sprintf("SELECT %v FROM %s ", fields, tableName), []any{}
+	return fmt.Sprintf("SELECT %v FROM %s ", fields, tableName), []interface{}{}
 }
 
-func _limit(values ...any) (string, []any) {
+func _limit(values ...interface{}) (string, []interface{}) {
 	return "LIMIT ?", values
 }
 
-func _where(values ...any) (string, []any) {
+func _where(values ...interface{}) (string, []interface{}) {
 	desc, vars := values[0], values[1:]
 	return fmt.Sprintf("WHERE %s", desc), vars
 }
 
-func _orderBy(values ...any) (string, []any) {
-	return fmt.Sprintf("ORDER BY %s", values[0]), []any{}
+func _orderBy(values ...interface{}) (string, []interface{}) {
+	return fmt.Sprintf("ORDER BY %s", values[0]), []interface{}{}
 }
 
 func _update(values ...interface{}) (string, []interface{}) {

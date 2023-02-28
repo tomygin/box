@@ -18,14 +18,14 @@ const (
 
 type Clause struct {
 	sql     map[Type]string
-	sqlVars map[Type][]any
+	sqlVars map[Type][]interface{}
 }
 
 // 生成子句
-func (c *Clause) Set(name Type, vars ...any) {
+func (c *Clause) Set(name Type, vars ...interface{}) {
 	if c.sql == nil {
 		c.sql = make(map[Type]string)
-		c.sqlVars = make(map[Type][]any)
+		c.sqlVars = make(map[Type][]interface{})
 	}
 	sql, vars := generators[name](vars...)
 	c.sql[name] = sql
@@ -33,7 +33,7 @@ func (c *Clause) Set(name Type, vars ...any) {
 }
 
 // 构造sql语句
-func (c *Clause) Build(orders ...Type) (string, []any) {
+func (c *Clause) Build(orders ...Type) (string, []interface{}) {
 
 	defer func() {
 		c.sql = nil
@@ -41,7 +41,7 @@ func (c *Clause) Build(orders ...Type) (string, []any) {
 	}()
 
 	var sqls []string
-	var vars []any
+	var vars []interface{}
 	for _, order := range orders {
 		if sql, ok := c.sql[order]; ok {
 			sqls = append(sqls, sql)

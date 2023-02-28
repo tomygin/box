@@ -7,9 +7,9 @@ import (
 	"github.com/tomygin/box/clause"
 )
 
-func (s *Session) Insert(values ...any) (int64, error) {
+func (s *Session) Insert(values ...interface{}) (int64, error) {
 
-	recordValues := make([]any, 0)
+	recordValues := make([]interface{}, 0)
 	for _, value := range values {
 		table := s.Model(value).RefTable()
 		s.clause.Set(clause.INSERT, table.Name, table.FieldNames)

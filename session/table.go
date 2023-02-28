@@ -2,14 +2,15 @@ package session
 
 import (
 	"fmt"
-	"github.com/tomygin/box/log"
-	"github.com/tomygin/box/schema"
 	"reflect"
 	"strings"
+
+	"github.com/tomygin/box/log"
+	"github.com/tomygin/box/schema"
 )
 
 // 如果当前对象没有被解析为Schema就解析
-func (s *Session) Model(value any) *Session {
+func (s *Session) Model(value interface{}) *Session {
 	if s.refTable == nil || reflect.TypeOf(value) != reflect.TypeOf(s.refTable.Model) {
 		s.refTable = schema.Parse(value, s.dialect)
 	}

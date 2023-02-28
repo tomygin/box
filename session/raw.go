@@ -2,17 +2,18 @@ package session
 
 import (
 	"database/sql"
+	"strings"
+
 	"github.com/tomygin/box/clause"
 	"github.com/tomygin/box/dialect"
 	"github.com/tomygin/box/log"
 	"github.com/tomygin/box/schema"
-	"strings"
 )
 
 type Session struct {
 	db      *sql.DB
 	sql     strings.Builder
-	sqlVars []any
+	sqlVars []interface{}
 
 	dialect  dialect.Dialect //适配不同的sql语言
 	refTable *schema.Schema  //不同结构体反射的Schema对象
@@ -53,7 +54,7 @@ func (s *Session) Clear() {
 	s.clause = clause.Clause{}
 }
 
-func (s *Session) Raw(sql string, values ...any) *Session {
+func (s *Session) Raw(sql string, values ...interface{}) *Session {
 	s.sql.WriteString(sql)
 	s.sql.WriteString(" ")
 	s.sqlVars = append(s.sqlVars, values...)

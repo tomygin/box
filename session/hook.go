@@ -13,7 +13,7 @@ const (
 
 // 反射
 
-// func (s *Session) CallMethod(method string, value any) {
+// func (s *Session) CallMethod(method string, value interface{}) {
 // 	//找到当前表 结构体 的 method 方法
 // 	fm := reflect.ValueOf(s.RefTable().Model).MethodByName(method)
 
