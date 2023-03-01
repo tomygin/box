@@ -37,9 +37,22 @@ const (
 
 // 接口
 
-// type IBeforeQuery interface {
-// 	BeforeQuery(*Session) error
-// }
+func (s *Session) CallMethod(method string) {
+	//当前操作的表对象
+	o := s.RefTable().Model
+	switch method {
+	case BeforeQuery:
+		if i, ok := o.(IBeforeQuery); ok {
+			i.BeforeQuery(s)
+		}
+	default:
+		panic("Unsupported hook method")
+	}
+}
+
+type IBeforeQuery interface {
+	BeforeQuery(s *Session) error
+}
 
 // type IAfterQuery interface {
 // 	AfterQuery(*Session) error
