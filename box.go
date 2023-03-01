@@ -22,3 +22,9 @@ func (e *Engine) Transaction(f TxFunc) (result interface{}, err error) {
 	}()
 	return f(s)
 }
+
+type Op func()
+
+func (e *Engine) Transaction_test(o Op) {
+	o()
+}
