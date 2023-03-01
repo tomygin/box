@@ -1,5 +1,7 @@
 package session
 
+import "reflect"
+
 const (
 	BeforeQuery  = "BeforeQuery"
 	AfterQuery   = "AfterQuery"
@@ -37,17 +39,19 @@ const (
 
 // 接口
 
-func (s *Session) CallMethod(method string) {
+func (s *Session) CallMethod(method string, values interface{}) {
 	//当前操作的表对象
-	o := s.RefTable().Model
+	// o := s.RefTable().Model
+	o := reflect.ValueOf(values)
 	switch method {
 	case BeforeQuery:
-		if i, ok := o.(IBeforeQuery); ok {
+		if i, ok := o.Interface().(IBeforeQuery); ok {
 			i.BeforeQuery(s)
 		}
 	default:
 		panic("Unsupported hook method")
 	}
+
 }
 
 type IBeforeQuery interface {
