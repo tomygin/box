@@ -5,6 +5,7 @@ import "github.com/tomygin/box/session"
 // 事务的回调函数
 type TxFunc func(*session.Session) (interface{}, error)
 
+// 一键事务提交
 func (e *Engine) Transaction(f TxFunc) (result interface{}, err error) {
 	s := e.NewSession()
 	if err := s.Begin(); err != nil {
@@ -21,10 +22,4 @@ func (e *Engine) Transaction(f TxFunc) (result interface{}, err error) {
 		}
 	}()
 	return f(s)
-}
-
-type Op func()
-
-func (e *Engine) Transaction_test(o Op) {
-	o()
 }
