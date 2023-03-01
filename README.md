@@ -23,6 +23,7 @@ import (
     
 	"github.com/tomygin/box"
 	"github.com/tomygin/box/log"
+    "github.com/tomygin/box/session"
 )
 
 type User struct {
@@ -76,14 +77,27 @@ func main() {
 
 	//执行原生SQL
 	session.Raw("INSERT INTO User (`Name`)  VALUES (?) ", "RAW").Exec()
+    
+    //一键事务，失败自动回滚
+    r, err := engine.Transaction(func(s *session.Session) (interface{}, error) {
+		s.Model(&Test{})
+		s.CreateTable()
+		s.Insert(&Test{Name: "tomygin"})
+		t := Test{}
+		err := s.Where("Name = ?", "tomygin").First(&t)
+		return t, err
+	})
+	fmt.Println(r, err)
 }
 
 ```
 
+
+
 ### 未来计划
 
 - [ ] 支持钩子函数
-- [ ] 事务提交
+- [x] 事务提交
 - [ ] 选项初始化
 - [ ] 分页
 - [ ] 异步插入
