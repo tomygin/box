@@ -79,7 +79,8 @@ func main() {
 
 	// 一键事务，失败自动回滚
 	r, err := engine.Transaction(func(s *session.Session) (interface{}, error) {
-		s.Model(&User{})
+		// s 是新的会话，先前对外部会话的设置对此会话无效，如有需要请重新设置
+        s.Model(&User{})
 		s.CreateTable()
 		s.Insert(&User{Name: "tomygin"})
 		t := User{}
@@ -113,7 +114,15 @@ BeforeInsert
 AfterInsert  
 ```
 
+### 必要说明
 
+1. 这个项目龟速更新
+
+2. sqlite3的驱动包是C的底层，所以你需要确保你有gcc或者mingw
+
+3. 钩子函数默认开启，如果需要关闭请在你的代码里面添加` s.Options(session.CloseHook())`
+
+   
 
 ### 未来计划
 
