@@ -102,7 +102,7 @@ func (t *User) BeforeQuery(s *session.Session) error {
 ```
 
 ```go
-// 可用的钩子函数
+	// 可用的钩子函数
 	BeforeQuery  
 	AfterQuery   
 	BeforeUpdate 
@@ -119,7 +119,7 @@ func (t *User) BeforeQuery(s *session.Session) error {
 
 - [x] 支持钩子函数
 - [x] 事务提交
-- [ ] 选项初始化
+- [x] 选项初始化
 - [ ] 分页
 - [ ] 异步插入
 

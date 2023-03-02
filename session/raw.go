@@ -22,12 +22,7 @@ type Session struct {
 
 	tx *sql.Tx //事务
 
-	options
-}
-
-// 选项卡初始化
-type options struct {
-	needOpenHook bool
+	ops options //部分功能的开关
 }
 
 // 为了对事务的支持
