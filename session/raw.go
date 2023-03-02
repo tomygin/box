@@ -21,6 +21,13 @@ type Session struct {
 	clause clause.Clause //构造sql语句
 
 	tx *sql.Tx //事务
+
+	options
+}
+
+// 选项卡初始化
+type options struct {
+	needOpenHook bool
 }
 
 // 为了对事务的支持
