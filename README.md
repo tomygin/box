@@ -102,15 +102,15 @@ func (t *User) BeforeQuery(s *session.Session) error {
 ```
 
 ```go
-	// 可用的钩子函数
-	BeforeQuery  
-	AfterQuery   
-	BeforeUpdate 
-	AfterUpdate  
-	BeforeDelete 
-	AfterDelete  
-	BeforeInsert 
-	AfterInsert  
+// 可用的钩子函数
+BeforeQuery  
+AfterQuery   
+BeforeUpdate 
+AfterUpdate  
+BeforeDelete 
+AfterDelete  
+BeforeInsert 
+AfterInsert  
 ```
 
 
