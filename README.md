@@ -2,9 +2,7 @@
 
 ### box介绍
 
-这是一款轻量级的Go语言ORM框架，内置sqlite3驱动 ，还在递归更新中，相信你能3分钟内上手 
-
-目前实现了简单的增删查改
+这是一款轻量级的Go语言ORM框架，学习于Geektutu的系列教程，内置sqlite3驱动 ，还在递归更新中，相信你能3分钟内上手，目前实现了增删查改,事务，hook
 
 ### 更新下载
 
@@ -19,8 +17,6 @@ go get -u github.com/tomygin/box@latest
 package main
 
 import (
-	"fmt"
-
 	"github.com/tomygin/box"
 	"github.com/tomygin/box/log"
 	"github.com/tomygin/box/session"
@@ -36,9 +32,11 @@ func main() {
 	defer engine.Close()
 
 	s := engine.NewSession().Model(&User{})
+
 	// 增删表
 	s.CreateTable()
 	defer s.DropTable()
+
 	// 判断表存在
 	if s.IsExistTable() {
 		log.Info("表存在")
@@ -49,23 +47,24 @@ func main() {
 		&User{Name: "tomygin", Age: 20},
 		&User{Name: "ice", Age: 19},
 		&User{Name: "test", Age: 18}); err == nil {
-		fmt.Println("成功插入", affect, "条数据")
+		log.Info("成功插入", affect, "条数据")
 	}
 
 	// 单条查询
 	tmp := User{}
 	if err := s.Where("Name = ?", "tomygin").First(&tmp); err != nil {
-		fmt.Println(err)
+		log.Error(err)
 	}
+
 	// 多条查询
 	tmps := []User{}
 	if err := s.Where("Age > 10").Find(&tmps); err == nil {
-		fmt.Println("拿到数据", tmps)
+		log.Info("拿到数据", tmps)
 	}
 
 	// 删除
 	if _, err := s.Where("Age = ?", 18).Limit(1).Delete(); err != nil {
-		fmt.Println(err)
+		log.Error(err)
 	}
 
 	// 更新
@@ -73,7 +72,7 @@ func main() {
 
 	// 查看更新
 	s.Where("Name = ?", "tomygin").First(&tmp)
-	fmt.Println(tmp)
+	log.Info(tmp)
 
 	// 执行原生SQL
 	s.Raw("INSERT INTO User (`Name`)  VALUES (?) ", "RAW").Exec()
@@ -89,6 +88,9 @@ func main() {
 	})
 	log.Info(r, err)
 
+	//日志分级
+	log.SetLevel(log.ErrorLevel)
+
 }
 
 // 钩子函数
@@ -97,6 +99,18 @@ func (t *User) BeforeQuery(s *session.Session) error {
 	return nil
 }
 
+```
+
+```go
+// 可用的钩子函数
+	BeforeQuery  
+	AfterQuery   
+	BeforeUpdate 
+	AfterUpdate  
+	BeforeDelete 
+	AfterDelete  
+	BeforeInsert 
+	AfterInsert  
 ```
 
 

@@ -33,6 +33,7 @@ func (s *Session) CallMethod(method string, value interface{}) {
 	if fm.IsValid() {
 		if v := fm.Call(param); len(v) > 0 {
 			if err, ok := v[0].Interface().(error); ok {
+				// panic(err)
 				log.Error(err)
 			}
 		}

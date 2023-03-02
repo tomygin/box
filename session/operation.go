@@ -9,6 +9,9 @@ import (
 
 func (s *Session) Insert(values ...interface{}) (int64, error) {
 
+	s.CallMethod(BeforeInsert, nil)
+	defer s.CallMethod(AfterInsert, nil)
+
 	recordValues := make([]interface{}, 0)
 	for _, value := range values {
 		table := s.Model(value).RefTable()
@@ -26,6 +29,10 @@ func (s *Session) Insert(values ...interface{}) (int64, error) {
 }
 
 func (s *Session) Find(values interface{}) error {
+
+	s.CallMethod(BeforeQuery, nil)
+	defer s.CallMethod(AfterQuery, nil)
+
 	destSlice := reflect.Indirect(reflect.ValueOf(values))
 	destType := destSlice.Type().Elem()
 	table := s.Model(reflect.New(destType).Elem().Interface()).RefTable()
@@ -52,6 +59,10 @@ func (s *Session) Find(values interface{}) error {
 }
 
 func (s *Session) Update(kv ...interface{}) (int64, error) {
+
+	s.CallMethod(BeforeUpdate, nil)
+	defer s.CallMethod(AfterUpdate, nil)
+
 	m, ok := kv[0].(map[string]interface{})
 	if !ok {
 		m = make(map[string]interface{})
@@ -69,6 +80,10 @@ func (s *Session) Update(kv ...interface{}) (int64, error) {
 }
 
 func (s *Session) Delete() (int64, error) {
+
+	s.CallMethod(BeforeDelete, nil)
+	defer s.CallMethod(AfterDelete, nil)
+
 	s.clause.Set(clause.DELETE, s.RefTable().Name)
 	sql, vars := s.clause.Build(clause.DELETE, clause.WHERE)
 	result, err := s.Raw(sql, vars...).Exec()
@@ -108,6 +123,7 @@ func (s *Session) OrderBy(desc string) *Session {
 func (s *Session) First(value interface{}) error {
 
 	s.CallMethod(BeforeQuery, nil)
+	defer s.CallMethod(AfterQuery, nil)
 
 	dest := reflect.Indirect(reflect.ValueOf(value))
 	destSlice := reflect.New(reflect.SliceOf(dest.Type())).Elem()
