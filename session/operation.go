@@ -107,7 +107,7 @@ func (s *Session) OrderBy(desc string) *Session {
 
 func (s *Session) First(value interface{}) error {
 
-	s.CallMethod(BeforeQuery, nil)
+	s.CallMethod(BeforeQuery)
 
 	dest := reflect.Indirect(reflect.ValueOf(value))
 	destSlice := reflect.New(reflect.SliceOf(dest.Type())).Elem()
