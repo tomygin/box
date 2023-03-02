@@ -21,7 +21,7 @@ const (
 
 func (s *Session) CallMethod(method string, value interface{}) {
 
-	if s.ops.notNeedOpenHook {
+	if s.notNeedHook {
 		return
 	}
 
