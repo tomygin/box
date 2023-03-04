@@ -55,6 +55,10 @@ func _limit(values ...interface{}) (string, []interface{}) {
 	return "LIMIT ?", values
 }
 
+func _offset(values ...interface{}) (string, []interface{}) {
+	return "OFFSET ?", values
+}
+
 func _where(values ...interface{}) (string, []interface{}) {
 	desc, vars := values[0], values[1:]
 	return fmt.Sprintf("WHERE %s", desc), vars
@@ -89,6 +93,7 @@ func init() {
 	generators[INSERT] = _insert
 	generators[VALUES] = _values
 	generators[LIMIT] = _limit
+	generators[OFFSET] = _offset
 	generators[WHERE] = _where
 	generators[ORDERBY] = _orderBy
 	generators[SELECT] = _select

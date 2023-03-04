@@ -104,8 +104,24 @@ func (s *Session) Count() (int64, error) {
 	return tmp, nil
 }
 
-func (s *Session) Limit(num int) *Session {
-	s.clause.Set(clause.LIMIT, num)
+func (s *Session) Limit(nums ...int) *Session {
+	// if len(nums) == 0 || len(nums) > 2 {
+	// 	log.Errorf("the number of limit param is wrong, %s", nums)
+	// 	return s
+	// }
+	numOfLimit, numOfOffset := nums[0], 0
+	s.clause.Set(clause.LIMIT, numOfLimit)
+	if len(nums) == 2 {
+		numOfOffset = nums[1]
+		//追加一个跳过实现分页
+		s.OFFSET(numOfOffset)
+	}
+	return s
+}
+
+// 用于跳过多少条数据
+func (s *Session) OFFSET(num int) *Session {
+	s.clause.Set(clause.OFFSET, num)
 	return s
 }
 

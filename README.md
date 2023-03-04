@@ -80,6 +80,7 @@ func main() {
 	// 一键事务，失败自动回滚
 	r, err := engine.Transaction(func(s *session.Session) (interface{}, error) {
 		// s 是新的会话，先前对外部会话的设置对此会话无效，如有需要请重新设置
+
         s.Model(&User{})
 		s.CreateTable()
 		s.Insert(&User{Name: "tomygin"})
@@ -129,6 +130,7 @@ AfterInsert
 - [x] 支持钩子函数
 - [x] 事务提交
 - [x] 选项初始化
-- [ ] 分页
+- [x] 分页
+- [ ] 自动构建查询对象
 - [ ] 异步插入
 
