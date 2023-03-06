@@ -2,12 +2,12 @@
 
 ### box介绍
 
-这是一款轻量级的Go语言ORM框架，学习于Geektutu的系列教程，内置sqlite3驱动 ，还在递归更新中，相信你能3分钟内上手，目前实现了增删查改,事务，hook
+这是一款轻量级的Go语言ORM框架，学习于Geektutu的系列教程，内置sqlite3驱动 ，还在递归更新中，相信你能3分钟内上手，目前实现了增删查改,事务，钩子函数，分页
 
 ### 更新下载
 
 ```go
-//在当前工作区下输入
+//在已经安装了GO编译器的前提在当前工作区下输入
 go get -u github.com/tomygin/box@latest
 ```
 
@@ -46,7 +46,14 @@ func main() {
 	if affect, err := s.Insert(
 		&User{Name: "tomygin", Age: 20},
 		&User{Name: "ice", Age: 19},
-		&User{Name: "test", Age: 18}); err == nil {
+		&User{Name: "test", Age: 18},
+		&User{Name: "t0", Age: 100},
+		&User{Name: "t1", Age: 101},
+		&User{Name: "t2", Age: 102},
+		&User{Name: "t3", Age: 103},
+		&User{Name: "t4", Age: 104},
+		&User{Name: "t5", Age: 105},
+		&User{Name: "t6", Age: 106}); err == nil {
 		log.Info("成功插入", affect, "条数据")
 	}
 
@@ -62,6 +69,12 @@ func main() {
 		log.Info("拿到数据", tmps)
 	}
 
+	// 分页查询
+	// Page 仅仅是封装了 Limit 和 Offset
+	if err := s.Where("Age > 10").Page(1, 2).Find(&tmps); err == nil {
+		log.Info("分页查询到数据", tmps)
+	}
+
 	// 删除
 	if _, err := s.Where("Age = ?", 18).Limit(1).Delete(); err != nil {
 		log.Error(err)
@@ -74,14 +87,17 @@ func main() {
 	s.Where("Name = ?", "tomygin").First(&tmp)
 	log.Info(tmp)
 
+	// 排序查找最小年龄
+	s.OrderBy("Age DESC").First(&tmp)
+	log.Info(tmp)
+
 	// 执行原生SQL
 	s.Raw("INSERT INTO User (`Name`)  VALUES (?) ", "RAW").Exec()
 
 	// 一键事务，失败自动回滚
 	r, err := engine.Transaction(func(s *session.Session) (interface{}, error) {
 		// s 是新的会话，先前对外部会话的设置对此会话无效，如有需要请重新设置
-
-        s.Model(&User{})
+		s.Model(&User{})
 		s.CreateTable()
 		s.Insert(&User{Name: "tomygin"})
 		t := User{}
@@ -132,6 +148,8 @@ AfterInsert
 - [x] 选项初始化
 - [x] 分页
 - [ ] 钩子函数终止后续操作
+- [ ] 自动记录执行的sql语句
 - [ ] 自动构建查询对象
 - [ ] 异步插入
+- [ ] 支持lua配置文件来控制数据库
 
