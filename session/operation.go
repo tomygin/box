@@ -97,11 +97,11 @@ func (s *Session) Count() (int64, error) {
 	s.clause.Set(clause.COUNT, s.RefTable().Name)
 	sql, vars := s.clause.Build(clause.COUNT, clause.WHERE)
 	row := s.Raw(sql, vars...).QueryRow()
+
 	var tmp int64
-	if err := row.Scan(&tmp); err != nil {
-		return 0, err
-	}
-	return tmp, nil
+	err := row.Scan(&tmp)
+	return tmp, err
+
 }
 
 func (s *Session) Limit(num int) *Session {

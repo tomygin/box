@@ -96,7 +96,7 @@ func main() {
 }
 
 // 钩子函数
-func (t *User) BeforeQuery(s *session.Session) error {
+func (u *User) BeforeQuery(s *session.Session) error {
 	log.Info("---钩子函数运行成功---")
 	return nil
 }
