@@ -23,6 +23,8 @@ type Session struct {
 	tx *sql.Tx //事务
 
 	options //部分功能的开关
+
+	abort bool
 }
 
 // 为了对事务的支持

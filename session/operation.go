@@ -10,6 +10,7 @@ import (
 func (s *Session) Insert(values ...interface{}) (int64, error) {
 
 	s.CallMethod(BeforeInsert, nil)
+
 	defer s.CallMethod(AfterInsert, nil)
 
 	recordValues := make([]interface{}, 0)
@@ -38,7 +39,7 @@ func (s *Session) Find(values interface{}) error {
 	table := s.Model(reflect.New(destType).Elem().Interface()).RefTable()
 
 	s.clause.Set(clause.SELECT, table.Name, table.FieldNames)
-	sql, vars := s.clause.Build(clause.SELECT, clause.WHERE, clause.ORDERBY, clause.LIMIT)
+	sql, vars := s.clause.Build(clause.SELECT, clause.WHERE, clause.ORDERBY, clause.LIMIT, clause.OFFSET)
 	rows, err := s.Raw(sql, vars...).QueryRows()
 	if err != nil {
 		return err

@@ -74,3 +74,8 @@ func (s *Session) CallMethod(method string, value interface{}) {
 // type IBeforeUpdate interface {
 // 	BeforeUpdate(*Session) error
 // }
+
+// 在hook中如果执行失败可以调用来结束hook后相关的 增删查改
+func (s *Session) Abort() {
+	s.abort = true
+}
