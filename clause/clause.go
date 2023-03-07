@@ -34,6 +34,7 @@ func (c *Clause) Set(name Type, vars ...interface{}) {
 }
 
 // 构造sql语句
+// 构造完成后清空构造的sql语句
 func (c *Clause) Build(orders ...Type) (string, []interface{}) {
 
 	defer func() {

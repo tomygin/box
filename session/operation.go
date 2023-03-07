@@ -10,7 +10,6 @@ import (
 func (s *Session) Insert(values ...interface{}) (int64, error) {
 
 	s.CallMethod(BeforeInsert, nil)
-
 	defer s.CallMethod(AfterInsert, nil)
 
 	recordValues := make([]interface{}, 0)
@@ -32,6 +31,12 @@ func (s *Session) Insert(values ...interface{}) (int64, error) {
 func (s *Session) Find(values interface{}) error {
 
 	s.CallMethod(BeforeQuery, nil)
+
+	if s.abort {
+		s.Clear()
+		return nil
+	}
+
 	defer s.CallMethod(AfterQuery, nil)
 
 	destSlice := reflect.Indirect(reflect.ValueOf(values))
